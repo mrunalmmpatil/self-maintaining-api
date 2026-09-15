@@ -1,0 +1,6 @@
+[
+  {"book_id":1,"quantity":2,"expected":{"title":"Practical Python","unit_price":"20.00","total":"40.00","membership_price":"5.00"}},
+  {"book_id":2,"quantity":3,"expected":{"title":"Small Systems","unit_price":"12.99","total":"38.97","membership_price":"5.00"}},
+  {"book_id":3,"quantity":4,"expected":{"title":"Open Handbook","unit_price":"0.00","total":"0.00","membership_price":"5.00"}},
+  {"book_id":1,"quantity":0,"expected":{"title":"Practical Python","unit_price":"20.00","total":"0.00","membership_price":"5.00"}}
+]
