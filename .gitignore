@@ -11,3 +11,14 @@ __pycache__/
 node_modules/
 dist/
 build/
+.local-data/
+*.tsbuildinfo
+.coverage
+.ruff_cache/
+
+# Third-party client repos fetched for real-world examples (not vendored; see examples/README.md)
+examples/real-world/checkout/
+
+# Generated run exports (api-maintainer export --output)
+migration-output/
+migration-output-*.diff
