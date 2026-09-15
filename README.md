@@ -78,6 +78,28 @@ Open [the local app](http://127.0.0.1:8000). Build the frontend before starting 
 
 The UI provides a form, persistent run history, evidence and affected locations, review approval, the source diff, check results, manual actions, and artifact downloads. Each run opens with the same verdict and per-stage breakdown the CLI prints, and the activity log shows every step with its stage, status and duration. Run URLs use a hash so refresh works with static hosting. Evaluation is invoked through the CLI; its separate verdict appears when loading the saved run.
 
+## Screenshots
+
+The migration form takes a local repository path plus the previous and new API documents.
+
+![New migration form](docs/screenshots/01-new-migration.png)
+
+Optional test settings supply the command and Docker image used for development checks.
+
+![Test settings](docs/screenshots/02-test-settings.png)
+
+Each run opens with the verdict and a per-stage breakdown.
+
+![Run verdict](docs/screenshots/03-run-verdict.png)
+
+Changes list their evidence and the affected source locations.
+
+![Changes and evidence](docs/screenshots/04-changes-evidence.png)
+
+The source patch is exported against a disposable copy; the original repository stays unchanged.
+
+![Source patch](docs/screenshots/05-source-patch.png)
+
 ## Execution and data
 
 CLI and API share `.local-data` by default. Set `API_MAINTAINER_DATA` to the same absolute location for both if overriding it. SQLite transactions control one migration/evaluation lease. A detached supervisor launches the worker, records heartbeats, and enforces the active deadline. Review checkpoints release the lease and survive restarts; a fresh repair-stage Strands agent uses the saved analysis. Counters do not reset.
