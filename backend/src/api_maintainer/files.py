@@ -123,9 +123,7 @@ def apply_edits(workspace, edits, allowed):
     if len(edits) > 50:
         raise ValueError("Supply at most 50 edits per call.")
     budget = sum(
-        len(str(e.get("find", ""))) + len(str(e.get("replace", "")))
-        for e in edits
-        if isinstance(e, dict)
+        len(str(e.get("find", ""))) + len(str(e.get("replace", ""))) for e in edits if isinstance(e, dict)
     )
     if budget > 128 * 1024:
         raise ValueError("Edits exceed 128 KiB of text in total.")
