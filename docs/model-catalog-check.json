@@ -1,0 +1,29 @@
+{
+  "checked_at": "2026-09-11T04:59:32.144995+00:00",
+  "source": "https://openrouter.ai/api/v1/models",
+  "note": "Catalog advertises free tool calling only. Live Strands tool/edit round trip NOT executed; no API key configured.",
+  "models": [
+    {
+      "id": "nex-agi/nex-n2.5-pro:free",
+      "pricing": {
+        "prompt": "0",
+        "completion": "0"
+      },
+      "supported_parameters": [
+        "include_reasoning",
+        "logprobs",
+        "max_tokens",
+        "reasoning",
+        "reasoning_effort",
+        "response_format",
+        "structured_outputs",
+        "temperature",
+        "tool_choice",
+        "tools",
+        "top_k",
+        "top_logprobs",
+        "top_p"
+      ]
+    }
+  ]
+}
