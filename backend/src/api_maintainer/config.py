@@ -9,9 +9,10 @@ ROOT = Path(__file__).resolve().parents[3]
 load_dotenv(ROOT / ".env", override=False, interpolate=False)
 SAMPLE = ROOT / "samples/bookstore"
 IMAGE = "api-maintainer-python:local"
+# Free models only: the technical PRD rules out a paid fallback, so a paid id here would
+# let a run silently spend credits. `doctor` reports an unlisted model as not configured.
 APPROVED_MODELS = frozenset(
     {
-        "anthropic/claude-sonnet-5",
         "nex-agi/nex-n2.5-pro:free",
         "nvidia/nemotron-3.5-lightning:free",
         "nvidia/nemotron-3-super-120b-a12b:free",
