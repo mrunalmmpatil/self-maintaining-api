@@ -1,0 +1,520 @@
+{
+  "$defs": {
+    "Budget": {
+      "additionalProperties": false,
+      "properties": {
+        "policy_version": {
+          "default": "1",
+          "title": "Policy Version",
+          "type": "string"
+        },
+        "limits": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Limits",
+          "type": "object"
+        },
+        "used_requests": {
+          "default": 0,
+          "title": "Used Requests",
+          "type": "integer"
+        },
+        "used_tools": {
+          "default": 0,
+          "title": "Used Tools",
+          "type": "integer"
+        },
+        "used_patch_attempts": {
+          "default": 0,
+          "title": "Used Patch Attempts",
+          "type": "integer"
+        },
+        "used_checks": {
+          "default": 0,
+          "title": "Used Checks",
+          "type": "integer"
+        },
+        "analysis_requests": {
+          "default": 0,
+          "title": "Analysis Requests",
+          "type": "integer"
+        },
+        "active_seconds": {
+          "default": 0,
+          "title": "Active Seconds",
+          "type": "number"
+        }
+      },
+      "title": "Budget",
+      "type": "object"
+    },
+    "Change": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "minItems": 1,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "affected_locations": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Affected Locations",
+          "type": "array"
+        },
+        "disposition": {
+          "enum": [
+            "repair",
+            "manual",
+            "no_change",
+            "uncertain"
+          ],
+          "title": "Disposition",
+          "type": "string"
+        },
+        "repair_summary": {
+          "default": "",
+          "title": "Repair Summary",
+          "type": "string"
+        },
+        "verification_refs": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Verification Refs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "description",
+        "evidence",
+        "disposition"
+      ],
+      "title": "Change",
+      "type": "object"
+    },
+    "Check": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "revision_hash": {
+          "title": "Revision Hash",
+          "type": "string"
+        },
+        "suite": {
+          "default": "bookstore-development",
+          "title": "Suite",
+          "type": "string"
+        },
+        "exit_code": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Exit Code"
+        },
+        "status": {
+          "enum": [
+            "passed",
+            "failed",
+            "incomplete"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "duration": {
+          "title": "Duration",
+          "type": "number"
+        },
+        "log_artifact_id": {
+          "title": "Log Artifact Id",
+          "type": "string"
+        },
+        "truncated": {
+          "default": false,
+          "title": "Truncated",
+          "type": "boolean"
+        },
+        "components": {
+          "additionalProperties": {
+            "type": "boolean"
+          },
+          "default": {},
+          "title": "Components",
+          "type": "object"
+        }
+      },
+      "required": [
+        "id",
+        "revision_hash",
+        "exit_code",
+        "status",
+        "duration",
+        "log_artifact_id"
+      ],
+      "title": "Check",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "pointer": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pointer"
+        },
+        "line_start": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line Start"
+        },
+        "line_end": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line End"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ManualAction": {
+      "additionalProperties": false,
+      "properties": {
+        "change_id": {
+          "title": "Change Id",
+          "type": "string"
+        },
+        "required_work": {
+          "title": "Required Work",
+          "type": "string"
+        },
+        "affected_locations": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Affected Locations",
+          "type": "array"
+        },
+        "unresolved_decision": {
+          "title": "Unresolved Decision",
+          "type": "string"
+        },
+        "blocking_effect": {
+          "title": "Blocking Effect",
+          "type": "string"
+        }
+      },
+      "required": [
+        "change_id",
+        "required_work",
+        "affected_locations",
+        "unresolved_decision",
+        "blocking_effect"
+      ],
+      "title": "ManualAction",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "default": "1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "mode": {
+      "default": "review",
+      "enum": [
+        "auto",
+        "review"
+      ],
+      "title": "Mode",
+      "type": "string"
+    },
+    "sample_id": {
+      "default": "bookstore",
+      "title": "Sample Id",
+      "type": "string"
+    },
+    "scenario_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Scenario Id"
+    },
+    "repository_path": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Repository Path"
+    },
+    "test_command": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Test Command",
+      "type": "array"
+    },
+    "test_image": {
+      "default": "api-maintainer-python:local",
+      "title": "Test Image",
+      "type": "string"
+    },
+    "analysis_summary": {
+      "default": "",
+      "title": "Analysis Summary",
+      "type": "string"
+    },
+    "parent_run_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Parent Run Id"
+    },
+    "created_at": {
+      "title": "Created At",
+      "type": "string"
+    },
+    "started_at": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Started At"
+    },
+    "finished_at": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Finished At"
+    },
+    "lifecycle": {
+      "default": "created",
+      "enum": [
+        "created",
+        "analyzing",
+        "awaiting_review",
+        "repairing",
+        "finalizing",
+        "finished",
+        "interrupted"
+      ],
+      "title": "Lifecycle",
+      "type": "string"
+    },
+    "termination_reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Termination Reason"
+    },
+    "inputs": {
+      "additionalProperties": true,
+      "default": {},
+      "title": "Inputs",
+      "type": "object"
+    },
+    "model": {
+      "additionalProperties": true,
+      "default": {},
+      "title": "Model",
+      "type": "object"
+    },
+    "budget": {
+      "$ref": "#/$defs/Budget"
+    },
+    "changes": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Change"
+      },
+      "title": "Changes",
+      "type": "array"
+    },
+    "manual_actions": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/ManualAction"
+      },
+      "title": "Manual Actions",
+      "type": "array"
+    },
+    "patch": {
+      "additionalProperties": true,
+      "default": {},
+      "title": "Patch",
+      "type": "object"
+    },
+    "development_checks": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Check"
+      },
+      "title": "Development Checks",
+      "type": "array"
+    },
+    "outcome": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Outcome"
+    },
+    "result": {
+      "default": "running",
+      "enum": [
+        "pass",
+        "partial",
+        "review",
+        "fail",
+        "running"
+      ],
+      "title": "Result",
+      "type": "string"
+    },
+    "result_reason": {
+      "default": "",
+      "title": "Result Reason",
+      "type": "string"
+    },
+    "development_verification": {
+      "default": "not_run",
+      "title": "Development Verification",
+      "type": "string"
+    },
+    "usage": {
+      "additionalProperties": true,
+      "title": "Usage",
+      "type": "object"
+    },
+    "artifacts": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Artifacts",
+      "type": "array"
+    },
+    "warnings": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    },
+    "evaluation": {
+      "additionalProperties": true,
+      "title": "Evaluation",
+      "type": "object"
+    }
+  },
+  "required": [
+    "run_id"
+  ],
+  "title": "Report",
+  "type": "object"
+}
