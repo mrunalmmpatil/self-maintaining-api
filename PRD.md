@@ -1,6 +1,6 @@
 # Self-Maintaining API — MVP
 
-Status: Review draft. Publication destination and testing boundary confirmation pending.
+Status: Original product brief. See [TECHNICAL_PRD.md](TECHNICAL_PRD.md) for the implementation specification incorporating the subsequent design decisions. The technical PRD takes precedence where they differ, including stack, fixed limits, repair modes, manual work, and partial repairs. Historical publication notes below describe the workspace before GitHub setup.
 
 ## Problem Statement
 
