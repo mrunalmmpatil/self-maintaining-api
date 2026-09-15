@@ -1,0 +1,86 @@
+openapi: 3.0.3
+info:
+  title: Storefront Inventory API
+  version: 2.0.0
+  description: Product catalogue and pricing for the storefront.
+servers:
+  - url: http://inventory.internal:8080
+paths:
+  /catalog/products/{productId}:
+    get:
+      operationId: getProduct
+      summary: Fetch a single product.
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: The product.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: No such product.
+  /catalog/products:
+    get:
+      operationId: listProducts
+      summary: List products in a category.
+      parameters:
+        - name: category
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Matching products.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductListing'
+components:
+  schemas:
+    Product:
+      type: object
+      required: [id, title, price_cents, shipping_price]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+          description: Display name of the product. Renamed from name in v1.
+        price_cents:
+          type: integer
+          description: >-
+            Unit price in integer cents, for example 8999 for 89.99 dollars.
+            Replaces the v1 price field, which was expressed in dollars.
+        shipping_price:
+          type: number
+          format: double
+          description: >-
+            Flat shipping charge in dollars, for example 4.50. Unchanged from
+            v1: this field is still dollars and is not expressed in cents.
+        stock_status:
+          type: string
+          description: Optional availability hint added in v2.
+          enum: [in_stock, low_stock, out_of_stock]
+    ProductListing:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductSummary'
+    ProductSummary:
+      type: object
+      required: [id, title]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string

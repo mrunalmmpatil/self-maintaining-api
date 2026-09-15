@@ -1,0 +1,79 @@
+openapi: 3.0.3
+info:
+  title: Storefront Inventory API
+  version: 1.5.0
+  description: Product catalogue and pricing for the storefront.
+servers:
+  - url: http://inventory.internal:8080
+paths:
+  /catalog/products/{productId}:
+    get:
+      operationId: getProduct
+      summary: Fetch a single product.
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: The product.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: No such product.
+  /catalog/products:
+    get:
+      operationId: listProducts
+      summary: List products in a category.
+      parameters:
+        - name: category
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Matching products.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductListing'
+components:
+  schemas:
+    Product:
+      type: object
+      required: [id, title, price, shipping_price]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+          description: Display name of the product. Renamed from name in 1.4.0.
+        price:
+          type: number
+          format: double
+          description: Unit price in dollars, for example 89.99. Unchanged from 1.4.0.
+        shipping_price:
+          type: number
+          format: double
+          description: Flat shipping charge in dollars, for example 4.50. Unchanged.
+    ProductListing:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductSummary'
+    ProductSummary:
+      type: object
+      required: [id, title]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
